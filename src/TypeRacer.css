@@ -1,0 +1,16 @@
+.test-prompt {
+    background-color: aquamarine;
+    width: 480px;
+    /* display: flex;
+    justify-content: center; */
+}
+
+.correct-words {
+    color: green;
+    display: inline;
+}
+
+.incomplete-words {
+    color: hotpink;
+    display: inline;
+}
