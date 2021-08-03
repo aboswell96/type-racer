@@ -1,5 +1,4 @@
 .test-prompt {
-    background-color: aquamarine;
     width: 480px;
     /* display: flex;
     justify-content: center; */
@@ -12,5 +11,16 @@
 
 .incomplete-words {
     color: hotpink;
+    display: inline;
+}
+
+.current-word-correct {
+    color: green;
+    display: inline;
+    text-decoration: underline;
+}
+
+.current-word-incomplete {
+    color: blue;
     display: inline;
 }
