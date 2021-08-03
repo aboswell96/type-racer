@@ -11,26 +11,51 @@ const TypeRacer = () => {
     const handleChange = (e) => {
 
         const newChar = e.nativeEvent.data;
+        console.log(newChar);
+        if(newChar === null){
 
-        if(newChar != " ") {
-
-            if(charCount == 0 && wordCount!==0) {
-                console.log("ddddd");
-                //SetIncompleteWords(incompleteWords.slice(splitWords[wordCount].length));
+            if(currentWordIncorrectChars) {
+                SetCurrentWordIncorrectChars(currentWordIncorrectChars.slice(0,currentWordIncorrectChars.length-1));
+                SetCurrentWordInput(currentWordInput.slice(0,currentWordInput.length-1));
+                SetCharCount(charCount === 0 ? 0 : charCount-1);
+                return;
             }
 
-            SetCurrentWordIncompleteChars(splitWords[wordCount].slice(charCount + 1));
-            SetCurrentWordInput(e.target.value);
-            SetCurrentWordCompletedChars(currentWordCompletedChars.concat(newChar));
-            SetCharCount(charCount + 1);
-
-            console.log(e);
-
+            //Backspace pressed
+            SetCurrentWordInput(currentWordInput.slice(0,currentWordInput.length-1));
+            SetCurrentWordCompletedChars(currentWordCompletedChars.slice(0,currentWordCompletedChars.length-1));
+            SetCurrentWordIncompleteChars(currentWordCompletedChars.slice(-1) + currentWordIncompleteChars);
+            SetCharCount(charCount === 0 ? 0 : charCount-1);
             return;
         }
 
-        const index = currentWordInput.length;
-        //console.log(e);
+        if(newChar != " ") {
+
+            if(currentWordIncorrectChars) {
+                //if there's any typos already, the next character is automatically a typo
+                SetCurrentWordIncorrectChars(currentWordIncorrectChars.concat(newChar));
+                SetCurrentWordInput(e.target.value);
+                SetCharCount(charCount+1);
+                return;
+            }
+
+            //User entered correct character
+            if(newChar === splitWords[wordCount][charCount]) {
+                SetCurrentWordIncompleteChars(splitWords[wordCount].slice(charCount + 1));
+                SetCurrentWordInput(e.target.value);
+                SetCurrentWordCompletedChars(currentWordCompletedChars.concat(newChar));
+                SetCharCount(charCount + 1);
+                return;
+            }
+            else {
+                //user entered wrong character
+                SetCurrentWordIncorrectChars(currentWordIncorrectChars.concat(newChar));
+                SetCurrentWordInput(e.target.value);
+                SetCharCount(charCount+1);
+                return;
+            }
+        }
+
         if(currentWordInput == (splitWords[wordCount])) {
             //Word is correct
             SetCompletedWords(completedWords.concat(splitWords[wordCount] + " "));
@@ -41,16 +66,13 @@ const TypeRacer = () => {
             SetCurrentWordCompletedChars("");
             SetCurrentWordIncompleteChars(splitWords[wordCount+1]);
         }
-        else {
-            //
-            console.log("TYPO");
-        }
 
     }
 
     const [currentWordInput, SetCurrentWordInput] = useState("");
     const [completedWords, SetCompletedWords] = useState("");
     const [currentWordCompletedChars, SetCurrentWordCompletedChars] = useState("");
+    const [currentWordIncorrectChars, SetCurrentWordIncorrectChars] = useState("");
     const [currentWordIncompleteChars, SetCurrentWordIncompleteChars] = useState(splitWords[0]);
     const [wordCount, SetWordCount] = useState(0);
     const [incompleteWords, SetIncompleteWords] = useState(prompt.slice(splitWords[0].length));
@@ -61,6 +83,7 @@ const TypeRacer = () => {
         <div class="test-prompt">
             <p class="correct-words">{completedWords}</p>
             <p class="current-word-correct">{currentWordCompletedChars}</p>
+            <p class="current-word-incorrect">{currentWordIncorrectChars}</p>
             <p class="current-word-incomplete">{currentWordIncompleteChars}</p>
             <p class="incomplete-words">{incompleteWords}</p>
         </div>

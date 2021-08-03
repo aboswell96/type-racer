@@ -20,6 +20,11 @@
     text-decoration: underline;
 }
 
+.current-word-incorrect {
+    color: red;
+    display: inline;
+}
+
 .current-word-incomplete {
     color: blue;
     display: inline;
