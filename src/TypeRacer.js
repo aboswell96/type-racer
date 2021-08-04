@@ -15,10 +15,22 @@ const TypeRacer = () => {
         if(newChar === null){
 
             if(currentWordIncorrectChars) {
-                SetCurrentWordIncorrectChars(currentWordIncorrectChars.slice(0,currentWordIncorrectChars.length-1));
-                SetCurrentWordInput(currentWordInput.slice(0,currentWordInput.length-1));
-                SetCharCount(charCount === 0 ? 0 : charCount-1);
-                return;
+                //more typos than the length of the current word
+                if(charCount > splitWords[wordCount].length) {
+                    SetCurrentWordIncorrectChars(currentWordIncorrectChars.slice(0,currentWordIncorrectChars.length-1));
+                    SetIncompleteWords(currentWordIncorrectChars.slice(-1).concat(incompleteWords));
+                    SetCharCount(charCount === 0 ? 0 : charCount-1);
+                    SetCurrentWordInput(currentWordInput.slice(0,currentWordInput.length-1));
+                    return;
+                } else {
+                    //current user input is shorter than the current prompt word
+                    SetCurrentWordIncorrectChars(currentWordIncorrectChars.slice(0,currentWordIncorrectChars.length-1));
+                    SetCurrentWordIncompleteChars(currentWordIncorrectChars.slice(-1).concat(currentWordIncompleteChars));
+                    SetCharCount(charCount === 0 ? 0 : charCount-1);
+                    SetCurrentWordInput(currentWordInput.slice(0,currentWordInput.length-1));
+                    return;
+                }
+
             }
 
             //Backspace pressed
@@ -33,7 +45,16 @@ const TypeRacer = () => {
 
             if(currentWordIncorrectChars) {
                 //if there's any typos already, the next character is automatically a typo
-                SetCurrentWordIncorrectChars(currentWordIncorrectChars.concat(newChar));
+                //user entered wrong character
+                if(charCount < splitWords[wordCount].length) {
+                    SetCurrentWordIncorrectChars(currentWordIncorrectChars.concat(splitWords[wordCount][charCount]));
+                    SetCurrentWordIncompleteChars(currentWordIncompleteChars.slice(1));
+                }
+                else {
+                    SetIncompleteWords(incompleteWords.slice(1));
+                    SetCurrentWordIncorrectChars(currentWordIncorrectChars.concat(incompleteWords[0]));
+                }
+            
                 SetCurrentWordInput(e.target.value);
                 SetCharCount(charCount+1);
                 return;
@@ -49,7 +70,14 @@ const TypeRacer = () => {
             }
             else {
                 //user entered wrong character
-                SetCurrentWordIncorrectChars(currentWordIncorrectChars.concat(newChar));
+                if(charCount < splitWords[wordCount].length) {
+                    SetCurrentWordIncorrectChars(currentWordIncorrectChars.concat(splitWords[wordCount][charCount]));
+                    SetCurrentWordIncompleteChars(currentWordIncompleteChars.slice(1));
+                }
+                else {
+                    SetIncompleteWords(incompleteWords.slice(1));
+                }
+            
                 SetCurrentWordInput(e.target.value);
                 SetCharCount(charCount+1);
                 return;
