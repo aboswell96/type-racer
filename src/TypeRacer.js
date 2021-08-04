@@ -11,7 +11,6 @@ const TypeRacer = () => {
     const handleChange = (e) => {
 
         const newChar = e.nativeEvent.data;
-        console.log(newChar);
         if(newChar === null){
 
             if(currentWordIncorrectChars) {
@@ -47,14 +46,26 @@ const TypeRacer = () => {
                 //if there's any typos already, the next character is automatically a typo
                 //user entered wrong character
                 if(charCount < splitWords[wordCount].length) {
+                    //typo is within the current word length
                     SetCurrentWordIncorrectChars(currentWordIncorrectChars.concat(splitWords[wordCount][charCount]));
                     SetCurrentWordIncompleteChars(currentWordIncompleteChars.slice(1));
                 }
                 else {
+                    //typos have spilled into the incomplete words
                     SetIncompleteWords(incompleteWords.slice(1));
                     SetCurrentWordIncorrectChars(currentWordIncorrectChars.concat(incompleteWords[0]));
                 }
             
+                SetCurrentWordInput(e.target.value);
+                SetCharCount(charCount+1);
+                return;
+            }
+
+            if(charCount >= splitWords[wordCount].length) {
+                //typed too many chars - doesn't matter what character it's automatically an error
+                console.log(incompleteWords[0]);
+                SetCurrentWordIncorrectChars(incompleteWords[0].concat(currentWordIncorrectChars));
+                SetIncompleteWords(incompleteWords.slice(1));
                 SetCurrentWordInput(e.target.value);
                 SetCharCount(charCount+1);
                 return;
@@ -71,10 +82,12 @@ const TypeRacer = () => {
             else {
                 //user entered wrong character
                 if(charCount < splitWords[wordCount].length) {
+                    //still in the current word
                     SetCurrentWordIncorrectChars(currentWordIncorrectChars.concat(splitWords[wordCount][charCount]));
                     SetCurrentWordIncompleteChars(currentWordIncompleteChars.slice(1));
                 }
                 else {
+                    //typos are longer than the current word length
                     SetIncompleteWords(incompleteWords.slice(1));
                 }
             

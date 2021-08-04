@@ -10,7 +10,7 @@
 }
 
 .incomplete-words {
-    color: hotpink;
+    color: black;
     display: inline;
 }
 
@@ -21,11 +21,12 @@
 }
 
 .current-word-incorrect {
-    color: red;
+    color: black;
+    background:orangered;
     display: inline;
 }
 
 .current-word-incomplete {
-    color: blue;
+    color: black;
     display: inline;
 }
