@@ -129,6 +129,7 @@ const TypeRacer = () => {
             <p class="incomplete-words">{incompleteWords}</p>
         </div>
         <input 
+            class="input__field"
             type="text"
             value={currentWordInput}
             onChange={handleChange}/>

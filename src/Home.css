@@ -1,0 +1,18 @@
+li {
+    list-style-type: none;
+}
+
+.widget__button {
+    height: 50px;
+    width: 100px;
+    font-size: large;
+}
+
+.typeracer__menu__widget {
+    display: flex;
+    flex-direction: row;
+    width: 750px;
+    justify-content: center;
+    margin: auto;
+    padding-top: 30px;
+}

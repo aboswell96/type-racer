@@ -1,5 +1,8 @@
+p {
+    font-size: large;
+}
+
 .test-prompt {
-    width: 480px;
     /* display: flex;
     justify-content: center; */
 }
@@ -29,4 +32,10 @@
 .current-word-incomplete {
     color: black;
     display: inline;
+}
+
+.input__field {
+    width: 100%;
+    height: 50px;
+    font-size: large;
 }

@@ -1,0 +1,24 @@
+.racemenu__card {
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    transition: 0.3s;
+    width: 300px;
+    height: 175px;
+    margin: 15px;
+    font-family: "Sora", Times, serif;
+    background:white;
+}
+
+.racemenu__card:hover {
+    box-shadow: 0 8px 32px 0 rgba(0,0,0,0.2);
+}
+
+.racemenu__card__text {
+    align: center;
+}
+
+img {
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    width: 300px;
+    height: 100px;
+  }
